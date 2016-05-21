@@ -1,9 +1,65 @@
 image: docker:latest
-
 services:
   - docker:dind
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+VARIABLES:
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_REF
+  CONTAINER_NAMED_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_REF_NAME
+  CONTAINER_TAG_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_TAG
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/markpundsack/docker:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
 
 build:
   stage: build
   script:
-    - docker build -t test .
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test1:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
+
+test2:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+
+release-branch:
+  stage: release
+  script:
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_NAMED_IMAGE
+  except:
+    - master
+
+release-master:
+  stage: release
+  script:
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+
+release-tag:
+  stage: release
+  script:
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_TAG_IMAGE
+    - docker push $CONTAINER_TAG_IMAGE
+  only:
+    - tags
+
+deploy-on-cloud:
+  stage: deploy
+  script:
+    - docker run -e DOCKERCLOUD_USER -e DOCKERCLOUD_API dockercloud/cli stack redeploy my-app
+  only:
+    - master
