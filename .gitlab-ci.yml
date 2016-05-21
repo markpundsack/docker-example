@@ -8,7 +8,7 @@ stages:
   - release
   - deploy
 
-VARIABLES:
+variables:
   CONTAINER_TEST_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_REF
   CONTAINER_NAMED_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_REF_NAME
   CONTAINER_TAG_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_TAG
