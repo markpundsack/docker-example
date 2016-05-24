@@ -9,10 +9,10 @@ stages:
   - deploy
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_REF
-  CONTAINER_NAMED_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_REF_NAME
-  CONTAINER_TAG_IMAGE: registry.gitlab.com/markpundsack/docker:$CI_BUILD_TAG
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/markpundsack/docker:latest
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY/markpundsack/docker-example:$CI_BUILD_REF
+  CONTAINER_NAMED_IMAGE: $CI_REGISTRY/markpundsack/docker-example:$CI_BUILD_REF_NAME
+  CONTAINER_TAG_IMAGE: $CI_REGISTRY/markpundsack/docker-example:$CI_BUILD_TAG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY/markpundsack/docker-example:latest
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
