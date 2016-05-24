@@ -6,7 +6,8 @@ stages:
   - build
   - test
   - release
-  - deploy
+  - staging
+  - production
 
 variables:
   CONTAINER_TEST_IMAGE: $CI_REGISTRY/$CI_USER_OR_GROUP/docker-example:$CI_BUILD_REF
@@ -26,12 +27,12 @@ build:
 test1:
   stage: test
   script:
-    - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
+    - docker run $CONTAINER_TEST_IMAGE echo "test1"
 
 test2:
   stage: test
   script:
-    - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+    - docker run $CONTAINER_TEST_IMAGE echo "test2"
 
 release-branch:
   stage: release
@@ -57,9 +58,18 @@ release-tag:
   only:
     - tags
 
-deploy-on-cloud:
-  stage: deploy
+deploy-staging:
+  stage: staging
   script:
-    - docker run -e DOCKERCLOUD_USER -e DOCKERCLOUD_API dockercloud/cli stack redeploy my-app
+    - docker run -e DOCKERCLOUD_USER -e DOCKERCLOUD_API dockercloud/cli stack redeploy my-staging-app
   only:
     - master
+  except:
+    - tags
+
+deploy-prod:
+  stage: production
+  script:
+    - docker run -e DOCKERCLOUD_USER -e DOCKERCLOUD_API dockercloud/cli stack redeploy my-prod-app
+  only:
+    - tags
