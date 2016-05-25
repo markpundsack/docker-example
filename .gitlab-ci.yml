@@ -21,23 +21,32 @@ before_script:
 build:
   stage: build
   script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
+  except:
+    - tags
 
 test1:
   stage: test
   script:
+    - docker pull $CONTAINER_TEST_IMAGE
     - docker run $CONTAINER_TEST_IMAGE echo "test1"
+  except:
+    - tags
 
 test2:
   stage: test
   script:
+    - docker pull $CONTAINER_TEST_IMAGE
     - docker run $CONTAINER_TEST_IMAGE echo "test2"
+  except:
+    - tags
 
 release-branch:
   stage: release
   script:
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_NAMED_IMAGE
     - docker push $CONTAINER_NAMED_IMAGE
   except:
     - master
@@ -45,6 +54,7 @@ release-branch:
 release-master:
   stage: release
   script:
+    - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
@@ -53,6 +63,7 @@ release-master:
 release-tag:
   stage: release
   script:
+    - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_TAG_IMAGE
     - docker push $CONTAINER_TAG_IMAGE
   only:
