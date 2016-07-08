@@ -1,0 +1,32 @@
+{
+  "name": "docker-example",
+  "version": "1.0.0",
+  "description": "Example app, written in node.js, built using Docker, deployed to Heroku",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "6.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/markpundsack/docker-example.git"
+  },
+  "keywords": [
+    "docker",
+    "node",
+    "heroku",
+    "docker"
+  ],
+  "author": "Mark Pundsack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/markpundsack/docker-example/issues"
+  },
+  "homepage": "https://gitlab.com/markpundsack/docker-example",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
