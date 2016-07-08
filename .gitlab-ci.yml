@@ -59,6 +59,8 @@ release-master:
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - master
+  except:
+    - tags
 
 release-tag:
   stage: release
