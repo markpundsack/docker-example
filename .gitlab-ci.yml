@@ -72,7 +72,9 @@ release-tag:
 deploy-staging:
   stage: staging
   script:
-    - docker run -e DOCKERCLOUD_USER -e DOCKERCLOUD_API dockercloud/cli stack redeploy my-staging-app
+    - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker push registry.heroku.com/$HEROKU_STAGE_APP/web
   only:
     - master
   except:
@@ -81,6 +83,8 @@ deploy-staging:
 deploy-prod:
   stage: production
   script:
-    - docker run -e DOCKERCLOUD_USER -e DOCKERCLOUD_API dockercloud/cli stack redeploy my-prod-app
+    - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker push registry.heroku.com/$HEROKU_PROD_APP/web
   only:
     - tags
