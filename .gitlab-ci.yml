@@ -75,7 +75,7 @@ deploy-staging:
     - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE registry.heroku.com/$HEROKU_STAGE_APP/web
-    - docker push registry.heroku.com/$HEROKU_STAGE_APP/web
+    - docker push registry.heroku.com/$HEROKU_STAGING_APP/web
   only:
     - master
   except:
