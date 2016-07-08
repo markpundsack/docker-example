@@ -1,7 +1,7 @@
 {
   "name": "docker-example",
   "version": "1.0.0",
-  "description": "Example app, written in node.js, built using Docker, deployed to Heroku",
+  "description": "Example app, written in node.js, using Express, built using Docker, deployed to Heroku",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
