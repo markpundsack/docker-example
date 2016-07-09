@@ -73,6 +73,7 @@ release-tag:
 
 deploy-staging:
   stage: staging
+  environment: staging
   script:
     - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
     - docker pull $CONTAINER_TEST_IMAGE
@@ -85,6 +86,7 @@ deploy-staging:
 
 deploy-prod:
   stage: production
+  environment: production
   script:
     - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
     - docker pull $CONTAINER_TEST_IMAGE
