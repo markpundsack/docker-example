@@ -50,6 +50,7 @@ release-branch:
     - docker push $CONTAINER_NAMED_IMAGE
   except:
     - master
+    - tags
 
 release-master:
   stage: release
@@ -59,8 +60,6 @@ release-master:
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - master
-  except:
-    - tags
 
 release-tag:
   stage: release
@@ -81,8 +80,6 @@ deploy-staging:
     - docker push registry.heroku.com/$HEROKU_STAGING_APP/web
   only:
     - master
-  except:
-    - tags
 
 deploy-prod:
   stage: production
