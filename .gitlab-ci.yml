@@ -14,6 +14,7 @@ variables:
   CONTAINER_NAMED_IMAGE: $CI_REGISTRY/$CI_USER_OR_GROUP/docker-example:$CI_BUILD_REF_NAME
   CONTAINER_TAG_IMAGE: $CI_REGISTRY/$CI_USER_OR_GROUP/docker-example:$CI_BUILD_TAG
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY/$CI_USER_OR_GROUP/docker-example:latest
+  DOCKER_DRIVER: overlay
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
