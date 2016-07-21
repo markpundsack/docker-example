@@ -92,3 +92,23 @@ deploy-prod:
     - docker push registry.heroku.com/$HEROKU_PROD_APP/web
   only:
     - tags
+
+deploy-to-staging:
+  stage: staging
+  environment: staging
+  script:
+    - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE registry.heroku.com/$HEROKU_STAGING_APP/web
+    - docker push registry.heroku.com/$HEROKU_STAGING_APP/web
+  when: manual
+
+deploy-to-production:
+  stage: production
+  environment: production
+  script:
+    - docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE registry.heroku.com/$HEROKU_PROD_APP/web
+    - docker push registry.heroku.com/$HEROKU_PROD_APP/web
+  when: manual
