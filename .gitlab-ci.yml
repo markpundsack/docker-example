@@ -71,7 +71,7 @@ release-tag:
   only:
     - tags
 
-deploy-staging:
+auto-deploy-master:
   stage: staging
   environment: staging
   script:
@@ -82,7 +82,7 @@ deploy-staging:
   only:
     - master
 
-deploy-prod:
+auto-deploy-tags:
   stage: production
   environment: production
   script:
