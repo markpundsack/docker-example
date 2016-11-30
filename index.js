@@ -5,7 +5,7 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', function(request, response) {
-response.send('Hello CodeShip!')
+response.send('Hello World!')
 })
 app.get('/*', function(req, res){
     var path = req.params[0] ? req.params[0] : 'index.html';
